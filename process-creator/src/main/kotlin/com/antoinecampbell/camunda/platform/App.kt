@@ -20,10 +20,10 @@ fun main() {
         .join()
     println("Diagram deployed")
 
-    // Start test process
-//    (0..10).forEach {
-//        startProcess(zeebeClient, "test")
-//    }
+    // Start test processes
+    (0..10).forEach { _ ->
+        startProcess(zeebeClient, "test")
+    }
 }
 
 fun startProcess(zeebeClient: ZeebeClient, processId: String) {
