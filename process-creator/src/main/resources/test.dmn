@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1i1ech4" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.2.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.0.0">
+  <decision id="additional_task" name="Additional Task">
+    <decisionTable id="DecisionTable_1pfrw95" hitPolicy="FIRST">
+      <input id="Input_1" label="randomNumber">
+        <inputExpression id="InputExpression_1" typeRef="number">
+          <text>randomNumber</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="needsAdditionalTask" name="needsAdditionalTask" typeRef="boolean" />
+      <rule id="DecisionRule_1ulaigv">
+        <description>An additional task is needed to complete the process</description>
+        <inputEntry id="UnaryTests_1h7dhnc">
+          <text>&gt; 5</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_03xrv9c">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0x0rg4c">
+        <description>An additional task is not needed</description>
+        <inputEntry id="UnaryTests_0puc3b6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_15c6cpa">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="additional_task">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
