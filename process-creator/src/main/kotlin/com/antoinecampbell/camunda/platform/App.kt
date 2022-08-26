@@ -31,5 +31,6 @@ fun startProcess(zeebeClient: ZeebeClient, processId: String) {
         .bpmnProcessId(processId)
         .latestVersion()
         .send()
+        .join()
     println("Process started")
 }
