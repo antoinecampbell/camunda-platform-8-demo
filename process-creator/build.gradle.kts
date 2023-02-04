@@ -8,7 +8,7 @@
 
 plugins {
     // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-    id("org.jetbrains.kotlin.jvm") version "1.6.21"
+    id("org.jetbrains.kotlin.jvm") version "1.8.0"
 
     // Apply the application plugin to add support for building a CLI application in Java.
     application
@@ -20,18 +20,26 @@ repositories {
 }
 
 dependencies {
-    implementation("io.camunda:zeebe-client-java:8.0.5")
+    implementation("io.camunda:zeebe-client-java:8.1.6")
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
     // Use the Kotlin JDK 8 standard library.
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
     // Use the Kotlin test library.
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
+//    testImplementation("org.jetbrains.kotlin:kotlin-test")
     // Use the Kotlin JUnit integration.
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+//    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
+    testImplementation("io.camunda:zeebe-process-test-extension:8.1.6")
+    testImplementation(platform("org.junit:junit-bom:5.9.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 application {
     // Define the main class for the application.
     mainClass.set("com.antoinecampbell.camunda.platform.AppKt")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
