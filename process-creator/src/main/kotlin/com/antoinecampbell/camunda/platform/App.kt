@@ -2,6 +2,7 @@ package com.antoinecampbell.camunda.platform
 
 import io.camunda.zeebe.client.ZeebeClient
 import io.camunda.zeebe.client.impl.ZeebeClientBuilderImpl.DEFAULT_GATEWAY_ADDRESS
+import java.util.UUID
 
 fun main() {
     // Create client
@@ -32,6 +33,7 @@ fun startProcess(zeebeClient: ZeebeClient, processId: String) {
     zeebeClient.newCreateInstanceCommand()
         .bpmnProcessId(processId)
         .latestVersion()
+        .variables(mapOf("businessKey" to UUID.randomUUID().toString()))
         .send()
         .join()
     println("Process started")
