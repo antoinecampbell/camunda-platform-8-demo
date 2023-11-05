@@ -5,14 +5,14 @@ import io.camunda.zeebe.client.api.response.ActivatedJob
 import io.camunda.zeebe.client.api.response.DeploymentEvent
 import io.camunda.zeebe.client.api.response.ProcessInstanceEvent
 import io.camunda.zeebe.process.test.api.ZeebeTestEngine
-import io.camunda.zeebe.process.test.assertions.BpmnAssert
+import io.camunda.zeebe.process.test.assertions.BpmnAssert.assertThat
 import io.camunda.zeebe.process.test.extension.ZeebeProcessTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.time.Duration
 
 @ZeebeProcessTest
-class ProcessTesT {
+class ProcessTest {
 
     // Variables injected by ZeebeProcessTest extensions
     private lateinit var engine: ZeebeTestEngine
@@ -27,7 +27,7 @@ class ProcessTesT {
             .addResourceFromClasspath("test.dmn")
             .send()
             .join()
-        BpmnAssert.assertThat(event)
+        assertThat(event)
     }
 
     @Test
@@ -35,13 +35,13 @@ class ProcessTesT {
         // Start process
         startProcess()
         // Expect process to be waiting at the first task
-        BpmnAssert.assertThat(processEvent)
+        assertThat(processEvent)
             .isStarted
             .isWaitingAtElements("task1")
         // Complete the first task
         completeServiceTask(variables = mapOf("randomNumber" to 1))
         // Ensure the process is complete
-        BpmnAssert.assertThat(processEvent)
+        assertThat(processEvent)
             .isCompleted
     }
 
@@ -50,19 +50,19 @@ class ProcessTesT {
         // Start process
         startProcess()
         // Expect process to be waiting at the first task
-        BpmnAssert.assertThat(processEvent)
+        assertThat(processEvent)
             .isStarted
             .isWaitingAtElements("task1")
         // Complete the first task with a value that requires an additional task
         completeServiceTask(variables = mapOf("randomNumber" to 6))
         // Expect process to be waiting at the second task
-        BpmnAssert.assertThat(processEvent)
+        assertThat(processEvent)
             .isStarted
             .isWaitingAtElements("task2")
         // Complete the second task
         completeServiceTask(variables = mapOf("randomNumber" to 6))
         // Ensure the process is complete
-        BpmnAssert.assertThat(processEvent)
+        assertThat(processEvent)
             .isCompleted
     }
 
@@ -71,13 +71,13 @@ class ProcessTesT {
         // Start process
         startProcess()
         // Expect process to be waiting at the first task
-        BpmnAssert.assertThat(processEvent)
+        assertThat(processEvent)
             .isStarted
             .isWaitingAtElements("task1")
         // Fail the first task with a value causing an incident
         failServiceTask()
         // Expect process to be waiting at the second task
-        BpmnAssert.assertThat(processEvent)
+        assertThat(processEvent)
             .hasAnyIncidents()
             .isWaitingAtElements("task1")
     }

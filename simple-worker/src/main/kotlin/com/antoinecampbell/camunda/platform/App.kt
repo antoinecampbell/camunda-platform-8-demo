@@ -2,7 +2,7 @@ package com.antoinecampbell.camunda.platform
 
 import io.camunda.zeebe.client.ZeebeClient
 import io.camunda.zeebe.client.impl.ZeebeClientBuilderImpl.DEFAULT_GATEWAY_ADDRESS
-import mu.KotlinLogging
+import io.github.oshai.kotlinlogging.KotlinLogging
 import java.time.Duration
 import kotlin.math.max
 import kotlin.random.Random
@@ -19,15 +19,15 @@ fun main() {
 
     // Send request to verify connection
     zeebeClient.newTopologyRequest().send().join()
-    logger.info("Connection successful")
+    logger.info { "Connection successful" }
 
     // Create worker
     zeebeClient.newWorker()
         .jobType("task")
         .handler { client, job ->
-            logger.info(job.toString())
+            logger.info { job.toString() }
             val randomNumber = Random.nextInt(10)
-            logger.info("The random number is: $randomNumber")
+            logger.info { "The random number is: $randomNumber" }
 
             // Complete job and add random number to process variables
             if (randomNumber == 3) {
