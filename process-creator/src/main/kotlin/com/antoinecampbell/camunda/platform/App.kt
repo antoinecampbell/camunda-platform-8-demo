@@ -24,7 +24,7 @@ fun main() {
     println("Diagram deployed")
 
     // Start test processes
-    (0..10).forEach { _ ->
+    (1..10).forEach { _ ->
         startProcess(zeebeClient, "test")
     }
 }
