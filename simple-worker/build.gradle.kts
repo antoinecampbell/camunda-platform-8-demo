@@ -1,8 +1,12 @@
+val zeebeVersion: String by project
+
 dependencies {
-    implementation("io.camunda:zeebe-client-java:8.2.13")
+    // Zeebe
+    implementation(platform("io.camunda:zeebe-bom:$zeebeVersion"))
+    implementation("io.camunda:zeebe-client-java")
     // Logging
-    implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
-    implementation("ch.qos.logback:logback-classic:1.4.11")
+    implementation("io.github.oshai:kotlin-logging-jvm:6.0.9")
+    implementation("ch.qos.logback:logback-classic:1.5.6")
 //    // Use the Kotlin test library.
 //    testImplementation("org.jetbrains.kotlin:kotlin-test")
 //    // Use the Kotlin JUnit integration.

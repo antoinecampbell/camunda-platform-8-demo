@@ -1,7 +1,6 @@
 package com.antoinecampbell.camunda.platform
 
 import io.camunda.zeebe.client.ZeebeClient
-import io.camunda.zeebe.client.impl.ZeebeClientBuilderImpl.DEFAULT_GATEWAY_ADDRESS
 import io.github.oshai.kotlinlogging.KotlinLogging
 import java.time.Duration
 import kotlin.math.max
@@ -12,7 +11,6 @@ private val logger = KotlinLogging.logger {}
 fun main() {
     // Create client
     val zeebeClient = ZeebeClient.newClientBuilder()
-        .gatewayAddress(System.getenv("ZEEBE_ADDRESS") ?: DEFAULT_GATEWAY_ADDRESS)
         .numJobWorkerExecutionThreads(1)
         .usePlaintext()
         .build()

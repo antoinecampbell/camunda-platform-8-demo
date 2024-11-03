@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.10"
+    kotlin("jvm")
 }
 
 repositories {
@@ -12,7 +12,6 @@ allprojects {
     apply(plugin = "application")
 
     repositories {
-        // Use Maven Central for resolving dependencies.
         mavenCentral()
     }
 
@@ -30,6 +29,6 @@ allprojects {
     }
 
     kotlin {
-        jvmToolchain(17)
+        jvmToolchain(21)
     }
 }

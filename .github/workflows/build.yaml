@@ -1,0 +1,47 @@
+name: Build and Publish Docker Image
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get version
+        run: |
+          export VERSION=$(cat version.txt)
+          echo "Version: $VERSION"
+          echo "IMAGE_TAG=$VERSION" >> $GITHUB_ENV
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Build with Gradle
+        run: ./gradlew assemble
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ktor-worker
+          push: true
+          tags: ghcr.io/antoine-campbell/ktor-camunda-worker:{{ env.IMAGE_TAG }}

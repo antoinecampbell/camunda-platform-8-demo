@@ -1,14 +1,14 @@
 package com.antoinecampbell.camunda.platform
 
 import io.camunda.zeebe.client.ZeebeClient
-import io.camunda.zeebe.client.impl.ZeebeClientBuilderImpl.DEFAULT_GATEWAY_ADDRESS
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import java.util.UUID
 
 fun main() {
     // Create client
     val zeebeClient = ZeebeClient.newClientBuilder()
-        .gatewayAddress(System.getenv("ZEEBE_ADDRESS") ?: DEFAULT_GATEWAY_ADDRESS)
-        .usePlaintext()
         .build()
 
     // Send request to verify connection
@@ -21,11 +21,13 @@ fun main() {
         .addResourceFromClasspath("test.dmn")
         .send()
         .join()
-    println("Diagram deployed")
+    println("Diagrams deployed")
 
     // Start test processes
-    (1..10).forEach { _ ->
-        startProcess(zeebeClient, "test")
+    runBlocking(Dispatchers.IO.limitedParallelism(2)) {
+        (1..1000).map { _ ->
+            async { startProcess(zeebeClient, "test") }
+        }
     }
 }
 
@@ -36,5 +38,5 @@ fun startProcess(zeebeClient: ZeebeClient, processId: String) {
         .variables(mapOf("businessKey" to UUID.randomUUID().toString()))
         .send()
         .join()
-    println("Process started")
+    println("Process started on thread: ${Thread.currentThread().name}")
 }
