@@ -10,4 +10,6 @@ Zeebe client with Kotlin
   ```
   ZEEBE_GRPC_ADDRESS=dns://home-server:26500
   ZEEBE_REST_ADDRESS=http://home-server:8080
+  # If not using TLS
+  ZEEBE_INSECURE_CONNECTION=true
   ```
