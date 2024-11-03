@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -44,4 +49,4 @@ jobs:
         with:
           context: ktor-worker
           push: true
-          tags: ghcr.io/antoine-campbell/ktor-camunda-worker:{{ env.IMAGE_TAG }}
+          tags: ghcr.io/antoinecampbell/ktor-camunda-worker:${{ env.IMAGE_TAG }}
